@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS MASTERPIECE | REZA</title>
+    <title>NEXUS ULTIMATE | REZA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script>
@@ -44,7 +44,7 @@
         .section { display: none; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
         .section.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* --- سیستم کافه پیشرفته --- */
+        /* --- سیستم کافه --- */
         .cup-wrapper { position: relative; width: 180px; height: 240px; display: flex; align-items: flex-end; justify-content: center; }
         .cup-body {
             position: relative; width: 150px; height: 120px;
@@ -65,26 +65,19 @@
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
             width: 8px; height: 0; background: #3f2e27; z-index: 20; border-radius: 0 0 10px 10px; transition: height 0.3s;
         }
-        /* افکت بخار (برای نوشیدنی گرم) */
         .steam-smoke {
             position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
             width: 60px; height: 60px; background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
             filter: blur(10px); opacity: 0; animation: none; z-index: 15;
         }
         @keyframes steaming { 0% { top: 60px; opacity: 0; width: 40px; } 50% { opacity: 0.6; } 100% { top: -20px; opacity: 0; width: 100px; } }
-
-        /* افکت یخ (برای نوشیدنی سرد) */
         .ice-cube {
             position: absolute; width: 30px; height: 30px; background: rgba(255,255,255,0.4);
             border: 1px solid white; border-radius: 4px; bottom: 10px; left: 30%;
             display: none; animation: floatIce 3s infinite ease-in-out;
         }
         @keyframes floatIce { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(10deg); } }
-
-        /* --- سایر --- */
         .progress-bar { transition: width 1s ease-in-out; }
-        
-        /* مخفی کردن المان ها */
         .hidden { display: none !important; }
     </style>
 </head>
@@ -92,26 +85,14 @@
 
     <div class="bg-animate"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
 
-    <div id="login-overlay" class="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 backdrop-blur-xl transition-opacity duration-700">
-        <div class="text-center w-full max-w-md p-8">
-            <div class="w-24 h-24 mx-auto mb-8 rounded-full border-4 border-nexus shadow-[0_0_30px_#00f2fe] flex items-center justify-center animate-pulse">
-                <i class="fas fa-fingerprint text-5xl text-nexus"></i>
-            </div>
-            <h1 class="text-4xl font-black text-white mb-2 tracking-[5px]">NEXUS</h1>
-            <p class="text-nexus mb-8 opacity-70">SYSTEM V.4.0 FINAL</p>
-            <input id="username" type="text" placeholder="نام کاربری..." class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-center text-white placeholder-white/30 outline-none focus:border-nexus transition mb-4">
-            <button onclick="bootSystem()" class="w-full bg-nexus text-black font-black py-4 rounded-xl hover:bg-white hover:scale-105 transition shadow-lg shadow-nexus/20">ورود به سیستم</button>
-        </div>
-    </div>
-
-    <div id="app-container" class="hidden min-h-screen flex flex-col max-w-7xl mx-auto p-4 md:p-6">
+    <div id="app-container" class="min-h-screen flex flex-col max-w-7xl mx-auto p-4 md:p-6 fade-in">
         
         <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 bg-gradient-to-tr from-nexus to-blue-600 rounded-xl flex items-center justify-center shadow-lg"><i class="fas fa-cube text-xl text-black"></i></div>
                 <div>
                     <h2 class="text-2xl font-black tracking-tighter">NEXUS <span class="text-nexus">OS</span></h2>
-                    <p class="text-[10px] text-gray-400 tracking-widest uppercase">سطح دسترسی: ادمین</p>
+                    <p class="text-[10px] text-gray-400 tracking-widest uppercase">سطح دسترسی: ادمین (رضا)</p>
                 </div>
             </div>
             
@@ -128,12 +109,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div class="cyber-card p-8 md:col-span-2 relative overflow-hidden flex flex-col justify-center">
                         <div class="absolute right-0 top-0 w-64 h-64 bg-nexus/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
-                        <h1 class="text-4xl md:text-5xl font-black mb-4">وقت بخیر، <span id="user-name-display" class="text-nexus">رضا</span></h1>
-                        <p class="text-lg opacity-60">امروز چه برنامه‌ای داری؟ سیستم در وضعیت پایدار است.</p>
+                        <h1 class="text-4xl md:text-5xl font-black mb-4">وقت بخیر، <span class="text-nexus">رضا</span></h1>
+                        <p class="text-lg opacity-60">همه سیستم‌ها آنلاین و آماده دستور شما هستند.</p>
                     </div>
                     <div class="cyber-card p-8 text-center flex flex-col justify-center items-center">
-                        <div id="clock-time" class="text-5xl font-black text-white mb-2 font-[monospace]">12:00</div>
-                        <div id="clock-date" class="text-nexus font-bold">۱۴۰۳/۱۰/۰۵</div>
+                        <div id="clock-time" class="text-5xl font-black text-white mb-2 font-[monospace]">00:00</div>
+                        <div id="clock-date" class="text-nexus font-bold">...</div>
                         <div class="mt-4 text-xs opacity-50 bg-white/5 px-3 py-1 rounded-full">تهران، ایران</div>
                     </div>
                 </div>
@@ -177,7 +158,6 @@
                     <div class="lg:col-span-5 cyber-card p-10 flex flex-col items-center justify-center min-h-[400px] relative">
                         <div id="cafe-stream" class="stream"></div>
                         <div id="cafe-steam" class="steam-smoke"></div>
-                        
                         <div class="cup-wrapper">
                             <div class="cup-handle"></div>
                             <div class="cup-body">
@@ -186,7 +166,6 @@
                                 <div id="ice-2" class="ice-cube" style="left: 60%; animation-delay: 1.5s;"></div>
                             </div>
                         </div>
-
                         <div id="cafe-msg" class="mt-8 text-xl font-bold text-center h-8">خوش آمدید، سفارش دهید</div>
                         <audio id="sound-pour" src="https://www.soundjay.com/misc/sounds/pouring-water-1.mp3"></audio>
                     </div>
@@ -197,29 +176,24 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="cyber-card p-6">
                         <h3 class="font-bold text-nexus mb-6 border-b border-white/10 pb-2">منابع سیستم</h3>
-                        
                         <div class="mb-4">
                             <div class="flex justify-between mb-1"><span class="text-sm">باتری</span><span id="sys-bat" class="text-sm font-mono">--%</span></div>
                             <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div id="bar-bat" class="h-full bg-green-500 w-0 progress-bar"></div></div>
                         </div>
-                        
                         <div class="mb-4">
-                            <div class="flex justify-between mb-1"><span class="text-sm">حافظه (Ram Estimation)</span><span class="text-sm font-mono">~4GB-8GB</span></div>
+                            <div class="flex justify-between mb-1"><span class="text-sm">حافظه (Ram)</span><span class="text-sm font-mono">~4GB-8GB</span></div>
                             <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-purple-500 w-[60%] animate-pulse"></div></div>
                         </div>
-
                         <div class="mb-4">
                             <div class="flex justify-between mb-1"><span class="text-sm">وضعیت شبکه</span><span class="text-sm font-mono text-green-400">ONLINE</span></div>
                             <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-nexus w-full"></div></div>
                         </div>
                     </div>
-
                     <div class="cyber-card p-6 font-mono text-xs md:text-sm overflow-hidden">
                         <h3 class="font-bold text-nexus mb-4 border-b border-white/10 pb-2 font-sans">اطلاعات دستگاه</h3>
                         <div class="space-y-2 opacity-70">
                             <p>> PLATFORM: <span id="sys-os" class="text-white">...</span></p>
                             <p>> RESOLUTION: <span id="sys-res" class="text-white">...</span></p>
-                            <p>> CORES: <span id="sys-core" class="text-white">...</span></p>
                             <p>> BROWSER: <span id="sys-browser" class="text-white">Chrome/V8</span></p>
                             <p class="text-green-400 mt-4">> SYSTEM STATUS: STABLE</p>
                         </div>
@@ -274,9 +248,8 @@
                     </div>
 
                     <div id="tool-content-notes" class="tool-content hidden">
-                        <h3 class="text-xl font-bold mb-4 text-center">دفترچه یادداشت (ذخیره خودکار)</h3>
+                        <h3 class="text-xl font-bold mb-4 text-center">دفترچه یادداشت</h3>
                         <textarea id="notepad" class="w-full h-32 bg-white/5 rounded-xl p-4 text-white border border-white/10 focus:border-purple-500 outline-none" placeholder="چیزی بنویسید..."></textarea>
-                        <p class="text-xs opacity-50 mt-2 text-right">* متن شما به صورت خودکار ذخیره می‌شود.</p>
                     </div>
                     
                     <div id="tool-placeholder" class="text-center opacity-40 py-10">
@@ -289,8 +262,45 @@
     </div>
 
     <script>
-        let currentUser = "کاربر";
+        let currentUser = "رضا";
         let pomoInterval;
 
-        // --- راه اندازی سیستم (اصلاح شده) ---
-        function bootSyst
+        // --- شروع خودکار سیستم ---
+        window.addEventListener('DOMContentLoaded', () => {
+            updateClock();
+            initSystemStats();
+            loadNote();
+        });
+
+        // --- ناوبری ---
+        function setTab(id) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // --- ساعت ---
+        function updateClock() {
+            const now = new Date();
+            const timeEl = document.getElementById('clock-time');
+            const dateEl = document.getElementById('clock-date');
+            if(timeEl) timeEl.innerText = now.toLocaleTimeString('fa-IR', {hour: '2-digit', minute:'2-digit'});
+            if(dateEl) dateEl.innerText = now.toLocaleDateString('fa-IR');
+            setTimeout(updateClock, 1000);
+        }
+
+        // --- کافه ---
+        function makeDrink(type, name, color, percent) {
+            const stream = document.getElementById('cafe-stream');
+            const liquid = document.getElementById('cafe-liquid');
+            const steam = document.getElementById('cafe-steam');
+            const msg = document.getElementById('cafe-msg');
+            const ices = document.querySelectorAll('.ice-cube');
+            const audio = document.getElementById('sound-pour');
+
+            stream.style.height = "0";
+            stream.style.background = color;
+            liquid.style.height = "0";
+            liquid.style.background = color;
+            steam.style.animation = "none";
+            steam.style.opacity = "0";
+            ices.forEach(ice => ice.styl
