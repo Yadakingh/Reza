@@ -83,6 +83,9 @@
 
         /* --- سایر --- */
         .progress-bar { transition: width 1s ease-in-out; }
+        
+        /* مخفی کردن المان ها */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -289,7 +292,5 @@
         let currentUser = "کاربر";
         let pomoInterval;
 
-        // --- راه اندازی سیستم ---
-        function bootSystem() {
-            const inputName = document.getElementById('username').value;
-            if(input
+        // --- راه اندازی سیستم (اصلاح شده) ---
+        function bootSyst
