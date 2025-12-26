@@ -3,112 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS REZA EDITION</title>
+    <title>NEXUS OS | REZA FINAL EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;700;900&display=swap');
-        body { font-family: 'Vazirmatn', sans-serif; background: #020617; color: #f1f5f9; }
+        :root { --accent: #00f2fe; --bg: #020617; }
+        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: #f1f5f9; overflow-x: hidden; }
         .cyber-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 2rem; }
         .section { display: none; }
-        .section.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section.active { display: block; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* فنجان سرامیکی واقعی */
-        .cup-container { position: relative; width: 160px; height: 130px; margin-top: 40px; }
-        .real-cup {
-            position: relative; width: 140px; height: 110px;
-            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-            border-radius: 10px 10px 60px 60px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 -10px 20px rgba(0,0,0,0.1);
-            z-index: 10; border: 1px solid #cbd5e1;
-        }
-        .cup-handle {
-            position: absolute; right: 5px; top: 20px;
-            width: 50px; height: 65px;
-            border: 12px solid #ffffff; border-radius: 50%;
-            z-index: 5; box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
-        }
-        .liquid {
-            position: absolute; bottom: 5px; left: 10px;
-            width: calc(100% - 20px); height: 0%;
-            border-radius: 5px 5px 50px 50px;
-            transition: height 3s ease; z-index: 11;
-        }
-        .coffee-stream {
-            position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-            width: 8px; height: 0; background: #4e342e; border-radius: 20px; transition: height 0.5s; z-index: 15;
-        }
+        /* طراحی فنجان سرامیکی واقعی */
+        .cup-container { position: relative; width: 160px; height: 120px; margin-top: 50px; }
+        .cup-main { position: relative; width: 140px; height: 110px; background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%); border-radius: 10px 10px 60px 60px; border: 2px solid #94a3b8; z-index: 10; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+        .cup-inner { position: absolute; top: 8px; left: 8px; width: calc(100% - 16px); height: calc(100% - 16px); background: #f8fafc; border-radius: 5px 5px 50px 50px; overflow: hidden; }
+        .liquid-fill { position: absolute; bottom: 0; width: 100%; height: 0%; transition: height 3.5s cubic-bezier(0.4, 0, 0.2, 1); background: #3d2b1f; }
+        .cup-handle { position: absolute; right: 0; top: 20px; width: 50px; height: 65px; border: 12px solid #ffffff; border-radius: 50%; z-index: 5; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
+        .coffee-stream { position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 8px; height: 0; background: #3d2b1f; z-index: 15; border-radius: 0 0 10px 10px; transition: height 0.5s; }
+        
+        #login-overlay { position: fixed; inset: 0; background: #020617; z-index: 999; display: flex; align-items: center; justify-content: center; }
+        .scanner-bar { position: absolute; width: 100%; height: 4px; background: #00f2fe; top: 0; display: none; animation: scanMove 2s infinite; box-shadow: 0 0 15px #00f2fe; }
+        @keyframes scanMove { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <div id="login-box" class="fixed inset-0 bg-black z-[100] flex items-center justify-center">
-        <div class="cyber-card p-10 w-96 text-center">
-            <h2 class="text-2xl font-black mb-6 text-cyan-400">NEXUS REZA PRO</h2>
-            <input type="text" id="name-in" placeholder="نام شما..." class="w-full p-3 bg-white/5 border border-white/10 rounded-xl mb-4 text-center">
-            <button onclick="bootSystem()" class="w-full bg-cyan-600 py-3 rounded-xl font-bold">ورود به سیستم</button>
+    <div id="login-overlay">
+        <div class="cyber-card p-10 w-full max-w-sm text-center">
+            <h2 class="text-3xl font-black mb-6 text-cyan-400">ورود به نکسوس</h2>
+            <input type="text" id="user-name-input" placeholder="نام خود را وارد کنید..." class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl mb-6 text-center focus:border-cyan-400 outline-none">
+            <button onclick="unlockSystem()" class="w-full bg-cyan-600 py-4 rounded-2xl font-black text-lg hover:bg-cyan-500 transition">تایید هویت</button>
         </div>
     </div>
 
-    <header class="max-w-6xl mx-auto flex justify-between items-center mb-8">
-        <h1 class="text-xl font-black text-cyan-400">NEXUS OS</h1>
-        <nav class="flex gap-2 bg-white/5 p-1 rounded-xl">
-            <button onclick="showTab('home')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10">داشبورد</button>
-            <button onclick="showTab('cafe')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10">کافه</button>
-            <button onclick="showTab('philosophy')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10">فلسفه</button>
-            <button onclick="showTab('tools')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10">ابزارها</button>
+    <header class="max-w-6xl mx-auto p-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center text-black shadow-lg shadow-cyan-500/20">
+                <i class="fas fa-terminal"></i>
+            </div>
+            <h1 class="text-xl font-black italic">NEXUS <span class="text-cyan-400">OS</span></h1>
+        </div>
+        <nav class="flex gap-1 bg-white/5 p-1 rounded-xl">
+            <button onclick="showTab('home')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10 transition">داشبورد</button>
+            <button onclick="showTab('cafe')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10 transition">کافه</button>
+            <button onclick="showTab('philo')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10 transition">فلسفه</button>
+            <button onclick="showTab('tools')" class="px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/10 transition">ابزارها</button>
         </nav>
     </header>
 
-    <main class="max-w-6xl mx-auto">
+    <main class="max-w-6xl mx-auto p-4">
         <section id="home" class="section active">
-            <div class="cyber-card p-16 text-center">
-                <h2 class="text-6xl font-black mb-4">سلام، <span id="user-display" class="text-cyan-400">رضا</span></h2>
-                <p class="opacity-50">خوش آمدی به پنل شخصی‌سازی شده خودت.</p>
-                <div class="mt-8 text-cyan-500 font-mono" id="weather">آب و هوا: تهران ۲۲°C | صاف</div>
+            <div class="cyber-card p-12 relative overflow-hidden">
+                <h2 class="text-5xl font-black mb-4">سلام، <span id="hello-name" class="text-cyan-400">رضا</span></h2>
+                <p class="text-lg opacity-50">تمام سیستم‌ها برای استفاده شما آماده هستند.</p>
+                <div class="mt-8 p-4 bg-white/5 inline-block rounded-2xl border border-white/5 font-mono" id="clock">00:00:00</div>
             </div>
         </section>
 
         <section id="cafe" class="section">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="cyber-card p-8">
-                    <h3 class="text-xl font-bold mb-6 text-orange-400">کافه بار حرفه‌ای</h3>
-                    <div class="space-y-2">
-                        <button onclick="brew('اسپرسو', '#3d2b1f', 40)" class="w-full p-4 bg-white/5 rounded-xl text-right hover:bg-orange-500/20">اسپرسو (غلیظ)</button>
-                        <button onclick="brew('کاپوچینو', '#c6a682', 80)" class="w-full p-4 bg-white/5 rounded-xl text-right hover:bg-orange-500/20">کاپوچینو (خامه‌ای)</button>
-                        <button onclick="brew('هات چاکلت', '#2b1b17', 85)" class="w-full p-4 bg-white/5 rounded-xl text-right hover:bg-orange-500/20">شکلات داغ</button>
+                    <h3 class="text-2xl font-black mb-6 text-orange-400">کافه تخصصی</h3>
+                    <div class="space-y-3">
+                        <button onclick="startBrew('دابل اسپرسو', '#2b1700', 45)" class="w-full p-4 bg-white/5 rounded-xl text-right hover:bg-orange-500/20 flex justify-between items-center">
+                            <span>اسپرسو غلیظ</span><i class="fas fa-chevron-left text-[10px] opacity-30"></i>
+                        </button>
+                        <button onclick="startBrew('کاپوچینو', '#c6a682', 85)" class="w-full p-4 bg-white/5 rounded-xl text-right hover:bg-orange-500/20 flex justify-between items-center">
+                            <span>کاپوچینو</span><i class="fas fa-chevron-left text-[10px] opacity-30"></i>
+                        </button>
+                        <button onclick="startBrew('آمریکانو', '#4e342e', 90)" class="w-full p-4 bg-white/5 rounded-xl text-right hover:bg-orange-500/20 flex justify-between items-center">
+                            <span>آمریکانو</span><i class="fas fa-chevron-left text-[10px] opacity-30"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="cyber-card p-10 flex flex-col items-center">
-                    <div id="stream" class="coffee-stream"></div>
+                <div class="cyber-card p-10 flex flex-col items-center justify-center min-h-[400px]">
+                    <div id="coffee-flow" class="coffee-stream"></div>
                     <div class="cup-container">
                         <div class="cup-handle"></div>
-                        <div class="real-cup">
-                            <div id="liquid" class="liquid"></div>
+                        <div class="cup-main">
+                            <div class="cup-inner">
+                                <div id="liquid-level" class="liquid-fill"></div>
+                            </div>
                         </div>
                     </div>
-                    <p id="cafe-msg" class="mt-8 font-bold text-orange-400 italic">آماده سفارش شما</p>
-                    <audio id="pour-sfx" src="https://www.soundjay.com/misc/sounds/pouring-water-1.mp3"></audio>
+                    <p id="cafe-status" class="mt-10 text-xl font-bold text-orange-400">سفارش بدید، رضا جان!</p>
+                    <audio id="pour-sound" src="https://www.soundjay.com/misc/sounds/pouring-water-1.mp3"></audio>
                 </div>
             </div>
         </section>
 
-        <section id="philosophy" class="section">
-            <div class="cyber-card p-12 text-center">
-                <p id="quote-box" class="text-2xl font-bold leading-relaxed mb-8">«برای شروع لازم نیست عالی باشی، اما برای عالی بودن باید شروع کنی.»</p>
-                <button onclick="newQuote()" class="bg-cyan-600 px-8 py-3 rounded-xl font-bold">جمله بعدی</button>
+        <section id="philo" class="section">
+            <div class="cyber-card p-16 text-center max-w-3xl mx-auto">
+                <i class="fas fa-quote-right text-4xl text-cyan-500 mb-8"></i>
+                <p id="quote-display" class="text-2xl md:text-3xl font-black leading-relaxed min-h-[150px]">«دانایی واقعی در این است که بدانی هیچ نمی‌دانی.»</p>
+                <p id="quote-author" class="mt-4 text-cyan-400 opacity-60">- سقراط</p>
+                <button onclick="genQuote()" class="mt-10 bg-white/5 border border-white/10 px-10 py-3 rounded-full hover:bg-cyan-600 transition font-bold">جمله بعدی</button>
             </div>
         </section>
 
         <section id="tools" class="section">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div onclick="doBMI()" class="cyber-card p-8 text-center cursor-pointer hover:border-cyan-500 transition">
-                    <i class="fas fa-weight-hanging text-3xl mb-4 text-green-400"></i>
-                    <h4 class="font-bold">محاسبه BMI</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="runBMI()" class="cyber-card p-8 text-center cursor-pointer hover:border-green-500 transition">
+                    <i class="fas fa-heartbeat text-4xl mb-4 text-green-500"></i>
+                    <h4 class="font-bold">محاسبه‌گر BMI</h4>
                 </div>
-                <div onclick="doBeauty()" class="cyber-card p-8 text-center cursor-pointer hover:border-cyan-500 transition">
-                    <i class="fas fa-magic text-3xl mb-4 text-pink-400"></i>
+                <div onclick="runBeauty()" class="cyber-card p-8 text-center cursor-pointer hover:border-pink-500 transition relative overflow-hidden group">
+                    <div id="beauty-scan" class="scanner-bar"></div>
+                    <i class="fas fa-face-smile text-4xl mb-4 text-pink-500"></i>
+                    <h4 class="font-bold">زیبایی‌سنج</h4>
+                </div>
+                <div onclick="runPass()" class="cyber-card p-8 text-center cursor-pointer hover:border-yellow-500 transition">
+                    <i class="fas fa-key text-4xl mb-4 text-yellow-500"></i>
+                    <h4 class="font-bold">تولید پسورد امن</h4>
+                </div>
+            </div>
+            <div id="tool-result-box" class="cyber-card mt-8 p-12 text-center text-2xl font-black text-cyan-400 min-h-[120px] flex items-center justify-center">
+                نتیجه ابزار در اینجا...
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let userName = "رضا";
+
+        function unlockSystem() {
+            const input = document.getElementById('user-name-input').value;
+            if(input.trim()) {
+                userName = input;
+                document.getElementById('hello-name').innerText = userName;
+                document.getElementById('login-overlay').style.display = "none";
+            }
+        }
+
+        function showTab(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('fa-IR');
+        }, 1000);
+
+        // کافه بار
+        function startBrew(name, color, level) {
+            const liq = document.getElementById('liquid-level');
+            const flow = document.getElementById('coffee-flow');
+            const status = document.getElementById('cafe-status');
+            const audio = document.getElementById('pour-sound');
+
+            liq.style.height = "0%";
+            flow.style.height = "160px";
+            status.innerText = `در حال ریختن ${name} برای ${userName}...`;
+            audio.play();
+
+            setTimeout(() => {
+                flow.style.height = "0";
+                liq.style.background = color;
+                liq.style.height = level + "%";
+                status.innerText = `${name} شما آماده است، نوش جان ${userName}!`;
+            }, 1500);
+        }
+
+        // بانک جملات واقعی
+        const quotes = [
+            {t: "آنچه مرا نکشد، نیرومندترم می‌سازد.", a: "فریدریش نیچه"},
+            {t: "زندگی بدون آزمون، ارزش زیستن ندارد.", a: "سقراط"},
+            {t: "بزرگترین پیروزی، پیروزی بر خود است.", a: "افلاطون"},
+            {t: "خوشبختی به کیفیت افکار شما بستگی دارد.", a: "مارکوس اورلیوس"},
+            {t: "مشکل دنیا این است که احمق‌ها به خود اطمینان دارند و عاقل‌ها پر از تردیدند.", a: "برتراند راسل"},
+            {t: "ما همان هستیم که مکرر انجام می‌دهیم؛ پس تعالی یک فعل نیست، یک عادت است.", a: "ارسطو"}
+        ];
+
+        function genQuote() {
+            const q = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote-display').innerText = `«${q.t}»`;
+            document.getElementById('quote-author').innerText = `- ${q.a}`;
+        }
+
+        // ابزارها
+        function runBMI() {
+            const w = prompt("وزن شما (کیلوگرم):");
+            const h = prompt("قد شما (سانتی‌متر):");
+            if(w && h) {
+                const bmi = (parseFloat(w) / ((parseFloat(h)/100)**2)).toFixed(1);
+                let st = bmi < 18.5 ? "کم‌وزن" : bmi < 25 ? "نرمال" : "اضافه وزن";
+                document.getElementById('tool-result-box').innerHTML = `شاخص BMI ${userName}: <span class="text-white">${bmi}</span> (${st})`;
+            }
+        }
+
+        function runBeauty() {
+            const bar = document.getElementById('beauty-scan');
+            const box = document.getElementById('tool-result-box');
+            bar.style.display = "block";
+            box.innerText = "در حال اسکن بیومتریک چهره...";
+            setTimeout(() => {
+                bar.style.display = "none";
+                const score = Math.floor(Math.random() * 15) + 85;
+                box.innerHTML = `میزان جذابیت ${userName}: <span class="text-pink-500">${score}%</span> ✨`;
+            }, 3000);
+        }
+
+        function runPass() {
+            const pass = Math.random().toString(36).slice(-10).toUpperCase() + "!";
+            document.getElementById('tool-result-box').innerHTML = `
+                <div class="flex flex-col gap-2">
+                    <p class="text-sm opacity-50">رمز امن شما ساخته شد:</p>
+                    <span class="text-yellow-500">${pass}</span>
+                    <button onclick="navigator.clipboard.writeText('${pass}'); alert('کپی شد، رضا جان!')" class="text-xs bg-white/10 px-4 py-1 rounded mt-2 hover:bg-white/20">کپی در کلیپ‌بورد</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
                     <h4 class="font-bold">زیبایی‌سنج</h4>
                 </div>
                 <div class="cyber-card p-8 text-center opacity-40">ابزار جدید به‌زودی...</div>
