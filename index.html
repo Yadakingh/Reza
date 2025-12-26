@@ -3,304 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS ULTIMATE | REZA</title>
+    <title>NEXUS ULTIMATE OS | REZA EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { nexus: '#00f2fe', dark: '#020617', glass: 'rgba(15, 23, 42, 0.85)' },
-                    animation: { 'spin-slow': 'spin 8s linear infinite', 'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }
+                    colors: { nexus: '#00f2fe', dark: '#020617', cyan: '#00e5ff' },
+                    animation: { 'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite' }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;400;700;900&display=swap');
-        body { font-family: 'Vazirmatn', sans-serif; background: #000000; color: #e2e8f0; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500;800&display=swap');
+        body { font-family: 'Vazirmatn', sans-serif; background: #020617; color: #e2e8f0; overflow-x: hidden; }
         
-        /* پس‌زمینه متحرک */
-        .bg-animate {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #000000 100%);
-        }
-        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 10s infinite ease-in-out; }
-        .orb-1 { width: 300px; height: 300px; background: #00f2fe; top: -50px; left: -50px; }
-        .orb-2 { width: 400px; height: 400px; background: #3b82f6; bottom: -100px; right: -100px; animation-delay: -5s; }
-        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, 50px); } }
+        .bg-animate { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3; animation: float 15s infinite linear; }
+        @keyframes float { 0% { transform: translate(0,0); } 50% { transform: translate(50px, 80px); } 100% { transform: translate(0,0); } }
 
-        /* استایل کارت‌ها */
         .cyber-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .cyber-card:hover { border-color: rgba(0, 242, 254, 0.3); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 242, 254, 0.1); }
+        .cyber-card:hover { border-color: #00f2fe; transform: scale(1.02); box-shadow: 0 0 30px rgba(0, 242, 254, 0.15); }
 
-        .section { display: none; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
-        .section.active { display: block; opacity: 1; transform: translateY(0); }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- سیستم کافه --- */
-        .cup-wrapper { position: relative; width: 180px; height: 240px; display: flex; align-items: flex-end; justify-content: center; }
-        .cup-body {
-            position: relative; width: 150px; height: 120px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(203,213,225,0.8) 100%);
-            border-radius: 10px 10px 70px 70px;
-            border: 1px solid rgba(255,255,255,0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10; overflow: hidden;
-        }
-        .cup-liquid {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
-            background: #3f2e27; transition: height 2s ease-out, background 0.5s;
-        }
-        .cup-handle {
-            position: absolute; right: -40px; top: 80px; width: 50px; height: 60px;
-            border: 12px solid rgba(255,255,255,0.8); border-radius: 50%; z-index: 5;
-        }
-        .stream {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 8px; height: 0; background: #3f2e27; z-index: 20; border-radius: 0 0 10px 10px; transition: height 0.3s;
-        }
-        .steam-smoke {
-            position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
-            width: 60px; height: 60px; background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
-            filter: blur(10px); opacity: 0; animation: none; z-index: 15;
-        }
-        @keyframes steaming { 0% { top: 60px; opacity: 0; width: 40px; } 50% { opacity: 0.6; } 100% { top: -20px; opacity: 0; width: 100px; } }
-        .ice-cube {
-            position: absolute; width: 30px; height: 30px; background: rgba(255,255,255,0.4);
-            border: 1px solid white; border-radius: 4px; bottom: 10px; left: 30%;
-            display: none; animation: floatIce 3s infinite ease-in-out;
-        }
-        @keyframes floatIce { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(10deg); } }
-        .progress-bar { transition: width 1s ease-in-out; }
-        .hidden { display: none !important; }
+        /* کافه فیزیکال */
+        .cup-container { position: relative; width: 140px; height: 110px; border: 4px solid #fff; border-radius: 5px 5px 50px 50px; background: rgba(255,255,255,0.1); overflow: hidden; }
+        .liquid { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; transition: height 3s ease; }
+        .steam { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 80px; display: none; }
+        .pour-stream { position: absolute; top: -150px; left: 50%; transform: translateX(-50%); width: 6px; height: 150px; z-index: 5; transition: height 0.3s; }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-    <div class="bg-animate"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
-
-    <div id="app-container" class="min-h-screen flex flex-col max-w-7xl mx-auto p-4 md:p-6 fade-in">
-        
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gradient-to-tr from-nexus to-blue-600 rounded-xl flex items-center justify-center shadow-lg"><i class="fas fa-cube text-xl text-black"></i></div>
-                <div>
-                    <h2 class="text-2xl font-black tracking-tighter">NEXUS <span class="text-nexus">OS</span></h2>
-                    <p class="text-[10px] text-gray-400 tracking-widest uppercase">سطح دسترسی: ادمین (رضا)</p>
-                </div>
-            </div>
-            
-            <nav class="bg-white/5 backdrop-blur-md p-1.5 rounded-2xl border border-white/10 flex gap-1 overflow-x-auto max-w-full">
-                <button onclick="setTab('dashboard')" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold hover:bg-white/10 text-gray-300 hover:text-nexus transition flex items-center gap-2"><i class="fas fa-home"></i> داشبورد</button>
-                <button onclick="setTab('cafe')" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold hover:bg-white/10 text-gray-300 hover:text-nexus transition flex items-center gap-2"><i class="fas fa-coffee"></i> کافه</button>
-                <button onclick="setTab('system')" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold hover:bg-white/10 text-gray-300 hover:text-nexus transition flex items-center gap-2"><i class="fas fa-server"></i> سیستم</button>
-                <button onclick="setTab('tools')" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold hover:bg-white/10 text-gray-300 hover:text-nexus transition flex items-center gap-2"><i class="fas fa-toolbox"></i> ابزارها</button>
-            </nav>
-        </header>
-
-        <main class="flex-grow">
-            <section id="dashboard" class="section active">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div class="cyber-card p-8 md:col-span-2 relative overflow-hidden flex flex-col justify-center">
-                        <div class="absolute right-0 top-0 w-64 h-64 bg-nexus/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
-                        <h1 class="text-4xl md:text-5xl font-black mb-4">وقت بخیر، <span class="text-nexus">رضا</span></h1>
-                        <p class="text-lg opacity-60">همه سیستم‌ها آنلاین و آماده دستور شما هستند.</p>
-                    </div>
-                    <div class="cyber-card p-8 text-center flex flex-col justify-center items-center">
-                        <div id="clock-time" class="text-5xl font-black text-white mb-2 font-[monospace]">00:00</div>
-                        <div id="clock-date" class="text-nexus font-bold">...</div>
-                        <div class="mt-4 text-xs opacity-50 bg-white/5 px-3 py-1 rounded-full">تهران، ایران</div>
-                    </div>
-                </div>
-
-                <div class="cyber-card p-6 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <i class="fas fa-cloud-sun text-5xl text-yellow-400"></i>
-                        <div>
-                            <div class="text-2xl font-bold">۲۴ درجه</div>
-                            <div class="text-sm opacity-60">صاف و آفتابی</div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-sm mb-1">رطوبت: <span class="text-nexus">۳۰٪</span></div>
-                        <div class="text-sm">باد: <span class="text-nexus">۱۲ km/h</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="cafe" class="section">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <div class="lg:col-span-7 space-y-6">
-                        <div class="cyber-card p-6">
-                            <h3 class="text-xl font-bold mb-4 text-orange-400 flex items-center gap-2"><i class="fas fa-fire"></i> بار گرم</h3>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="makeDrink('hot', 'اسپرسو', '#2b1700', 30)" class="bg-white/5 hover:bg-orange-500/20 p-4 rounded-xl text-right transition border border-transparent hover:border-orange-500/50">☕ اسپرسو</button>
-                                <button onclick="makeDrink('hot', 'لته', '#d6b48f', 85)" class="bg-white/5 hover:bg-orange-500/20 p-4 rounded-xl text-right transition border border-transparent hover:border-orange-500/50">🥛 لته آرت</button>
-                                <button onclick="makeDrink('hot', 'موکا', '#4a3728', 90)" class="bg-white/5 hover:bg-orange-500/20 p-4 rounded-xl text-right transition border border-transparent hover:border-orange-500/50">🍫 موکا</button>
-                                <button onclick="makeDrink('hot', 'آمریکانو', '#3d2b1f', 95)" class="bg-white/5 hover:bg-orange-500/20 p-4 rounded-xl text-right transition border border-transparent hover:border-orange-500/50">🇺🇸 آمریکانو</button>
-                            </div>
-                        </div>
-                        <div class="cyber-card p-6">
-                            <h3 class="text-xl font-bold mb-4 text-blue-400 flex items-center gap-2"><i class="fas fa-snowflake"></i> بار سرد</h3>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="makeDrink('cold', 'آیس کافی', '#3d2b1f', 80)" class="bg-white/5 hover:bg-blue-500/20 p-4 rounded-xl text-right transition border border-transparent hover:border-blue-500/50">🧊 آیس کافی</button>
-                                <button onclick="makeDrink('cold', 'فراپاچینو', '#eaddcf', 95)" class="bg-white/5 hover:bg-blue-500/20 p-4 rounded-xl text-right transition border border-transparent hover:border-blue-500/50">🍦 فراپاچینو</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-5 cyber-card p-10 flex flex-col items-center justify-center min-h-[400px] relative">
-                        <div id="cafe-stream" class="stream"></div>
-                        <div id="cafe-steam" class="steam-smoke"></div>
-                        <div class="cup-wrapper">
-                            <div class="cup-handle"></div>
-                            <div class="cup-body">
-                                <div id="cafe-liquid" class="cup-liquid"></div>
-                                <div id="ice-1" class="ice-cube" style="left: 20%; animation-delay: 0s;"></div>
-                                <div id="ice-2" class="ice-cube" style="left: 60%; animation-delay: 1.5s;"></div>
-                            </div>
-                        </div>
-                        <div id="cafe-msg" class="mt-8 text-xl font-bold text-center h-8">خوش آمدید، سفارش دهید</div>
-                        <audio id="sound-pour" src="https://www.soundjay.com/misc/sounds/pouring-water-1.mp3"></audio>
-                    </div>
-                </div>
-            </section>
-
-            <section id="system" class="section">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="cyber-card p-6">
-                        <h3 class="font-bold text-nexus mb-6 border-b border-white/10 pb-2">منابع سیستم</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between mb-1"><span class="text-sm">باتری</span><span id="sys-bat" class="text-sm font-mono">--%</span></div>
-                            <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div id="bar-bat" class="h-full bg-green-500 w-0 progress-bar"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between mb-1"><span class="text-sm">حافظه (Ram)</span><span class="text-sm font-mono">~4GB-8GB</span></div>
-                            <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-purple-500 w-[60%] animate-pulse"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between mb-1"><span class="text-sm">وضعیت شبکه</span><span class="text-sm font-mono text-green-400">ONLINE</span></div>
-                            <div class="h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-nexus w-full"></div></div>
-                        </div>
-                    </div>
-                    <div class="cyber-card p-6 font-mono text-xs md:text-sm overflow-hidden">
-                        <h3 class="font-bold text-nexus mb-4 border-b border-white/10 pb-2 font-sans">اطلاعات دستگاه</h3>
-                        <div class="space-y-2 opacity-70">
-                            <p>> PLATFORM: <span id="sys-os" class="text-white">...</span></p>
-                            <p>> RESOLUTION: <span id="sys-res" class="text-white">...</span></p>
-                            <p>> BROWSER: <span id="sys-browser" class="text-white">Chrome/V8</span></p>
-                            <p class="text-green-400 mt-4">> SYSTEM STATUS: STABLE</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="tools" class="section">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <button onclick="openTool('bmi')" class="cyber-card p-6 hover:bg-white/5 text-center group">
-                        <i class="fas fa-weight-scale text-3xl mb-3 text-green-400 group-hover:scale-110 transition"></i>
-                        <div class="font-bold">تست BMI</div>
-                    </button>
-                    <button onclick="openTool('pomodoro')" class="cyber-card p-6 hover:bg-white/5 text-center group">
-                        <i class="fas fa-stopwatch text-3xl mb-3 text-red-400 group-hover:scale-110 transition"></i>
-                        <div class="font-bold">تایمر تمرکز</div>
-                    </button>
-                    <button onclick="openTool('pass')" class="cyber-card p-6 hover:bg-white/5 text-center group">
-                        <i class="fas fa-key text-3xl mb-3 text-yellow-400 group-hover:scale-110 transition"></i>
-                        <div class="font-bold">پسورد ساز</div>
-                    </button>
-                    <button onclick="openTool('notes')" class="cyber-card p-6 hover:bg-white/5 text-center group">
-                        <i class="fas fa-sticky-note text-3xl mb-3 text-purple-400 group-hover:scale-110 transition"></i>
-                        <div class="font-bold">یادداشت</div>
-                    </button>
-                </div>
-
-                <div id="tool-panel" class="cyber-card p-8 min-h-[200px]">
-                    <div id="tool-content-bmi" class="tool-content hidden text-center">
-                        <h3 class="text-xl font-bold mb-4">محاسبه‌گر سلامتی</h3>
-                        <div class="flex gap-4 justify-center mb-4">
-                            <input type="number" id="bmi-w" placeholder="وزن (kg)" class="bg-white/5 p-2 rounded text-center w-24 border border-white/20">
-                            <input type="number" id="bmi-h" placeholder="قد (cm)" class="bg-white/5 p-2 rounded text-center w-24 border border-white/20">
-                        </div>
-                        <button onclick="calcBMI()" class="bg-green-600 px-6 py-2 rounded-lg font-bold">محاسبه</button>
-                        <div id="bmi-res" class="mt-4 text-xl"></div>
-                    </div>
-
-                    <div id="tool-content-pomodoro" class="tool-content hidden text-center">
-                        <h3 class="text-xl font-bold mb-4">تایمر پومودورو (۲۵ دقیقه)</h3>
-                        <div id="pomo-timer" class="text-6xl font-black font-mono mb-6">25:00</div>
-                        <div class="flex gap-4 justify-center">
-                            <button onclick="startPomo()" class="bg-red-600 px-6 py-2 rounded-lg">شروع</button>
-                            <button onclick="resetPomo()" class="bg-white/10 px-6 py-2 rounded-lg">ریست</button>
-                        </div>
-                    </div>
-
-                    <div id="tool-content-pass" class="tool-content hidden text-center">
-                        <h3 class="text-xl font-bold mb-4">تولید رمز عبور امن</h3>
-                        <div id="pass-display" class="bg-black/30 p-4 rounded-xl font-mono text-2xl text-yellow-400 mb-4 tracking-widest">---</div>
-                        <button onclick="genPass()" class="bg-yellow-600 px-6 py-2 rounded-lg font-bold text-black">تولید جدید</button>
-                    </div>
-
-                    <div id="tool-content-notes" class="tool-content hidden">
-                        <h3 class="text-xl font-bold mb-4 text-center">دفترچه یادداشت</h3>
-                        <textarea id="notepad" class="w-full h-32 bg-white/5 rounded-xl p-4 text-white border border-white/10 focus:border-purple-500 outline-none" placeholder="چیزی بنویسید..."></textarea>
-                    </div>
-                    
-                    <div id="tool-placeholder" class="text-center opacity-40 py-10">
-                        <i class="fas fa-arrow-up mb-2"></i>
-                        <p>یک ابزار را از بالا انتخاب کنید</p>
-                    </div>
-                </div>
-            </section>
-        </main>
+    <div class="bg-animate">
+        <div class="orb w-80 h-80 bg-nexus top-0 left-0"></div>
+        <div class="orb w-96 h-96 bg-blue-600 bottom-0 right-0" style="animation-delay: -5s"></div>
     </div>
 
+    <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-nexus rounded-2xl flex items-center justify-center shadow-[0_0_20px_#00f2fe]"><i class="fas fa-microchip text-black text-2xl"></i></div>
+            <div>
+                <h1 class="text-3xl font-black text-white uppercase tracking-tighter">Nexus <span class="text-nexus">OS</span></h1>
+                <p class="text-xs text-gray-500 font-mono uppercase tracking-[3px]">Admin: Reza / v5.0.1</p>
+            </div>
+        </div>
+
+        <nav class="cyber-card p-1.5 flex gap-2 overflow-x-auto">
+            <button onclick="changeTab('home')" class="px-6 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-nexus hover:text-black">داشبورد</button>
+            <button onclick="changeTab('cafe')" class="px-6 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-nexus hover:text-black">کافه پرو</button>
+            <button onclick="changeTab('sys')" class="px-6 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-nexus hover:text-black">سیستم</button>
+            <button onclick="changeTab('tools')" class="px-6 py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-nexus hover:text-black">ابزارها</button>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <section id="home" class="section active">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 cyber-card p-10 flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute -right-20 -top-20 w-80 h-80 bg-nexus/10 rounded-full blur-3xl"></div>
+                    <h2 class="text-5xl font-extrabold mb-4">خوش آمدی، <span class="text-nexus">رضا</span></h2>
+                    <p class="text-xl text-gray-400">تمام پروتکل‌های امنیتی در وضعیت <span class="text-green-400">Stable</span> هستند.</p>
+                </div>
+                <div class="cyber-card p-8 flex flex-col items-center justify-center">
+                    <div id="live-clock" class="text-6xl font-black text-white mb-2">00:00</div>
+                    <div id="live-date" class="text-nexus font-bold text-lg">---</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cafe" class="section">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-mug-hot text-orange-500"></i> منوی هوشمند کافه</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="serveDrink('Espresso', '#3c2a21', 40, true)" class="cyber-card p-5 text-right hover:bg-white/5">
+                            <div class="font-bold text-lg">☕ اسپرسو</div>
+                            <div class="text-xs text-gray-500">غلیظ و انرژی‌زا</div>
+                        </button>
+                        <button onclick="serveDrink('Cappuccino', '#c6a17b', 85, true)" class="cyber-card p-5 text-right hover:bg-white/5">
+                            <div class="font-bold text-lg">🥛 کاپوچینو</div>
+                            <div class="text-xs text-gray-500">فوم شیر زیاد</div>
+                        </button>
+                        <button onclick="serveDrink('Iced Americano', '#4c3228', 90, false)" class="cyber-card p-5 text-right hover:bg-white/5">
+                            <div class="font-bold text-lg">🧊 آیس آمریکانو</div>
+                            <div class="text-xs text-gray-500">خنک و ملایم</div>
+                        </button>
+                        <button onclick="serveDrink('Green Tea', '#8cae6d', 70, true)" class="cyber-card p-5 text-right hover:bg-white/5">
+                            <div class="font-bold text-lg">🍃 چای سبز</div>
+                            <div class="text-xs text-gray-500">آنتی اکسیدان</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cyber-card p-10 flex flex-col items-center justify-center min-h-[450px]">
+                    <div id="pour-stream" class="pour-stream"></div>
+                    <div id="steam-effect" class="text-4xl animate-bounce mb-2 hidden">♨️</div>
+                    <div class="cup-container">
+                        <div id="cup-liquid" class="liquid"></div>
+                    </div>
+                    <div class="mt-8 text-center">
+                        <div id="cafe-status" class="text-xl font-bold text-nexus">آماده سفارش...</div>
+                        <div id="cafe-timer" class="text-xs text-gray-500 mt-2">NEXUS CAFE SYSTEM v2.0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sys" class="section">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="cyber-card p-8">
+                    <h3 class="text-xl font-bold mb-8 flex items-center gap-3 text-nexus"><i class="fas fa-bolt"></i> وضعیت انرژی و شبکه</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2"><span>سطح باتری</span><span id="bat-val">0%</span></div>
+                            <div class="h-2 bg-white/10 rounded-full"><div id="bat-bar" class="h-full bg-nexus rounded-full transition-all duration-1000"></div></div>
+                        </div>
+                        <div class="flex justify-between p-4 bg-white/5 rounded-xl">
+                            <span>وضعیت اتصال</span>
+                            <span class="text-green-400 font-bold">Connected (Fiber)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cyber-card p-8 font-mono text-sm leading-relaxed">
+                    <h3 class="text-xl font-sans font-bold mb-6 text-nexus">Kernel Logs</h3>
+                    <p class="text-gray-500">> OS: Nexus Ultimate Edition</p>
+                    <p class="text-gray-500">> Architecture: x64/Web</p>
+                    <p class="text-gray-500">> Memory: <span id="mem-val">Calculating...</span></p>
+                    <p class="text-green-500 mt-4">> STATUS: SYSTEM_READY_OK</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="section">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <button onclick="showTool('pass')" class="cyber-card p-6 text-center hover:bg-nexus hover:text-black">
+                    <i class="fas fa-key text-2xl mb-2"></i>
+                    <div class="font-bold">پسورد ساز</div>
+                </button>
+                <button onclick="showTool('bmi')" class="cyber-card p-6 text-center hover:bg-nexus hover:text-black">
+                    <i class="fas fa-heartbeat text-2xl mb-2"></i>
+                    <div class="font-bold">تست سلامت</div>
+                </button>
+                <button onclick="showTool('pomo')" class="cyber-card p-6 text-center hover:bg-nexus hover:text-black">
+                    <i class="fas fa-clock text-2xl mb-2"></i>
+                    <div class="font-bold">تایمر تمرکز</div>
+                </button>
+                <button onclick="showTool('note')" class="cyber-card p-6 text-center hover:bg-nexus hover:text-black">
+                    <i class="fas fa-pen text-2xl mb-2"></i>
+                    <div class="font-bold">یادداشت سریع</div>
+                </button>
+            </div>
+
+            <div class="cyber-card p-10 min-h-[300px]">
+                <div id="tool-empty" class="text-center text-gray-600 py-10">
+                    <i class="fas fa-tools text-5xl mb-4"></i>
+                    <p>یک ابزار را برای اجرا انتخاب کنید</p>
+                </div>
+
+                <div id="t-bmi" class="hidden text-center max-w-sm mx-auto">
+                    <h4 class="text-xl font-bold mb-6">محاسبه توده بدنی (BMI)</h4>
+                    <input type="number" id="w" placeholder="وزن (kg)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl mb-4 outline-none">
+                    <input type="number" id="h" placeholder="قد (cm)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl mb-4 outline-none">
+                    <button onclick="calcBMI()" class="w-full bg-nexus text-black font-bold p-4 rounded-xl">محاسبه</button>
+                    <div id="bmi-res" class="mt-6 text-2xl font-black"></div>
+                </div>
+
+                <div id="t-pass" class="hidden text-center">
+                    <h4 class="text-xl font-bold mb-6">مولد رمز عبور فوق امنیتی</h4>
+                    <div id="pass-res" class="text-3xl font-mono bg-white/5 p-6 rounded-2xl mb-6 tracking-widest text-nexus border border-nexus/20">---</div>
+                    <button onclick="genPass()" class="bg-white text-black px-10 py-4 rounded-xl font-black hover:bg-nexus">تولید رمز</button>
+                </div>
+
+                <div id="t-note" class="hidden">
+                    <h4 class="text-xl font-bold mb-4">یادداشت‌های رمزگذاری شده</h4>
+                    <textarea id="note-area" oninput="saveNote()" class="w-full h-48 bg-white/5 border border-white/10 p-6 rounded-2xl outline-none focus:border-nexus transition-all" placeholder="اینجا بنویسید... ذخیره خودکار انجام می‌شود."></textarea>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <script>
-        let currentUser = "رضا";
-        let pomoInterval;
-
-        // --- شروع خودکار سیستم ---
-        window.addEventListener('DOMContentLoaded', () => {
-            updateClock();
-            initSystemStats();
-            loadNote();
-        });
-
-        // --- ناوبری ---
-        function setTab(id) {
-            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+        // --- Core Navigation ---
+        function changeTab(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
 
-        // --- ساعت ---
+        function showTool(tool) {
+            document.getElementById('tool-empty').classList.add('hidden');
+            document.getElementById('t-bmi').classList.add('hidden');
+            document.getElementById('t-pass').classList.add('hidden');
+            document.getElementById('t-note').classList.add('hidden');
+            if(tool === 'bmi') document.getElementById('t-bmi').classList.remove('hidden');
+            if(tool === 'pass') document.getElementById('t-pass').classList.remove('hidden');
+            if(tool === 'note') document.getElementById('t-note').classList.remove('hidden');
+        }
+
+        // --- Live Systems ---
         function updateClock() {
             const now = new Date();
-            const timeEl = document.getElementById('clock-time');
-            const dateEl = document.getElementById('clock-date');
-            if(timeEl) timeEl.innerText = now.toLocaleTimeString('fa-IR', {hour: '2-digit', minute:'2-digit'});
-            if(dateEl) dateEl.innerText = now.toLocaleDateString('fa-IR');
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString('fa-IR', {hour: '2-digit', minute: '2-digit'});
+            document.getElementById('live-date').innerText = now.toLocaleDateString('fa-IR', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
             setTimeout(updateClock, 1000);
         }
 
-        // --- کافه ---
-        function makeDrink(type, name, color, percent) {
-            const stream = document.getElementById('cafe-stream');
-            const liquid = document.getElementById('cafe-liquid');
-            const steam = document.getElementById('cafe-steam');
-            const msg = document.getElementById('cafe-msg');
-            const ices = document.querySelectorAll('.ice-cube');
-            const audio = document.getElementById('sound-pour');
+        async function initStats() {
+            if(navigator.getBattery) {
+                const bat = await navigator.getBattery();
+                const updateBat = () => {
+                    const lv = Math.round(bat.level * 100);
+                    document.getElementById('bat-val').innerText = lv + '%';
+                    document.getElementById('bat-bar').style.width = lv + '%';
+                };
+                updateBat();
+                bat.onlevelchange = updateBat;
+            }
+            document.getElementById('mem-val').innerText = (window.performance.memory ? Math.round(window.performance.memory.jsHeapSizeLimit/1048576) : 8) + ' GB Shared';
+        }
 
-            stream.style.height = "0";
-            stream.style.background = color;
-            liquid.style.height = "0";
-            liquid.style.background = color;
-            steam.style.animation = "none";
-            steam.style.opacity = "0";
-            ices.forEach(ice => ice.styl
+        // --- Cafe Pro Engine ---
+        let isServing = false;
+        function serveDrink(name, color, fill, hot) {
+            if(isServing) return;
+            isServing = true;
+            
+            const liquid = document.getElementById('cup-liquid');
+            const stream = document.getElementById('pour-stream');
+            const steam = document.getElementById('steam-effect');
+            const status = document.getElementById('cafe-status');
+
+            // Reset
+            liquid.style.height = '0%';
+            liquid.style.backgroundColor = color;
+            stream.style.backgroundColor = color;
+            steam.classList.add('hidden');
+            status.innerText = `در حال ریختن ${name}...`;
+
+            // Start Pouring
+            setTimeout(() => {
+                stream.style.height = '150px';
+                // Fake Sound using Audio Context
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'brown'; 
+                osc.connect(gain); gain.connect(ctx.destination);
+                gain.gain.setValueAtTime(0.01, ctx.currentTime);
+                osc.start();
+                osc.stop(ctx.currentTime + 3);
+
+                setTimeout(() => {
+                    liquid.style.height = fill + '%';
+                    setTimeout(() => {
+                        stream.style.height = '0px';
+                        status.innerText = `${name} آماده است! نوش جان رضا`;
+                        if(hot) steam.classList.remove('hidden');
+                        isServing = false;
+                    }, 2500);
+                }, 300);
+            }, 200);
+        }
+
+        // --- Business Logic Tools ---
+        function calcBMI() {
+            const weight = document.getElementById('w').value;
+            const height = document.getElementById('h').value / 100;
+            if(weight && height) {
+                const bmi = (weight / (height * height)).toFixed(1);
+                let cat = bmi < 18.5 ? "کم‌وزن" : bmi < 25 ? "نرمال" : "اضافه وزن";
+                document.getElementById('bmi-res').innerText = `BMI: ${bmi} (${cat})`;
+            }
+        }
+
+        function genPass() {
+            const charset = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#$%&*";
+            let ret = "";
+            for(let i=0; i<14; i++) ret += charset.charAt(Math.floor(Math.random() * charset.length));
+            document.getElementById('pass-res').innerText = ret;
+        }
+
+        function saveNote() {
+            localStorage.setItem('nexus_note_reza', document.getElementById('note-area').value);
+        }
+
+        // --- Launch ---
+        window.onload = () => {
+            updateClock();
+            initStats();
+            const savedNote = localStorage.getItem('nexus_note_reza');
+            if(savedNote) document.getElementById('note-area').value = savedNote;
+        };
+    </script>
+</body>
+</html>
+
