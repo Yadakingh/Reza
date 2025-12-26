@@ -3,319 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SINA NEXUS X | نکسوس نسخه نهایی</title>
+    <title>SINA NEXUS PRIME | OS 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;700;900&display=swap');
-        
-        :root {
-            --bg: #020617; --card: rgba(15, 23, 42, 0.9); --text: #f1f5f9; --accent: #00f2fe;
-        }
-        .light-mode {
-            --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --text: #0f172a; --accent: #0284c7;
-        }
-
-        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; min-height: 100vh; }
-        .cyber-card { background: var(--card); backdrop-filter: blur(10px); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 1.5rem; }
-        .nav-active { background: var(--accent) !important; color: #000 !important; box-shadow: 0 0 15px var(--accent); }
-        .section { display: none; }
-        .section.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .liquid-fill { transition: height 2s cubic-bezier(0.4, 0, 0.2, 1), background 1s; }
-        .steam-anim { animation: steamUp 2s infinite; opacity: 0; }
-        @keyframes steamUp { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-40px); opacity: 0; } }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500;800&display=swap');
+        :root { --neon: #00f2fe; --bg: #020617; --card: rgba(15, 23, 42, 0.95); }
+        .light-mode { --neon: #0284c7; --bg: #f1f5f9; --card: #ffffff; }
+        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: #e2e8f0; transition: 0.4s; overflow-x: hidden; }
+        .light-mode body { color: #1e293b; }
+        .glass { background: var(--card); backdrop-filter: blur(12px); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 1.5rem; }
+        .nav-active { background: var(--neon) !important; color: #000 !important; box-shadow: 0 0 20px var(--neon); }
+        .section { display: none; animation: slideUp 0.5s ease; }
+        .section.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-hover { transition: 0.3s; } .btn-hover:hover { transform: scale(1.05); filter: brightness(1.2); }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-3 md:p-6">
 
-    <header class="max-w-7xl mx-auto cyber-card p-4 mb-8 flex flex-col lg:flex-row justify-between items-center gap-4">
+    <header class="max-w-7xl mx-auto glass p-4 mb-6 flex flex-col lg:flex-row justify-between items-center gap-4">
         <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-cyan-500 rounded-xl flex items-center justify-center text-black shadow-lg">
-                <i class="fas fa-bolt text-xl"></i>
+            <div class="w-14 h-14 bg-cyan-500 rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
+                <i class="fas fa-microchip text-2xl text-black"></i>
             </div>
-            <h1 class="text-xl font-black tracking-tight">NEXUS <span class="text-cyan-500">ULTRA</span></h1>
+            <div>
+                <h1 class="text-2xl font-black tracking-tighter">NEXUS <span class="text-cyan-400">PRIME</span></h1>
+                <p id="clock" class="text-[10px] font-mono opacity-60">12:00:00</p>
+            </div>
         </div>
-
-        <nav class="flex flex-wrap justify-center gap-2" id="main-nav">
-            <button onclick="changeTab('home')" class="nav-btn nav-active px-4 py-2 rounded-lg text-xs font-bold">داشبورد</button>
-            <button onclick="changeTab('cafe')" class="nav-btn px-4 py-2 rounded-lg text-xs font-bold">کافه</button>
-            <button onclick="changeTab('psych')" class="nav-btn px-4 py-2 rounded-lg text-xs font-bold">روانشناسی</button>
-            <button onclick="changeTab('beauty')" class="nav-btn px-4 py-2 rounded-lg text-xs font-bold">زیبایی‌سنج</button>
-            <button onclick="changeTab('games')" class="nav-btn px-4 py-2 rounded-lg text-xs font-bold">گیم‌سنتر</button>
-            <button onclick="changeTab('sys')" class="nav-btn px-4 py-2 rounded-lg text-xs font-bold">سیستم</button>
-            <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-cyan-500/20">
-                <i class="fas fa-circle-half-stroke"></i>
-            </button>
+        <nav class="flex flex-wrap justify-center gap-2">
+            <button onclick="tab('home')" class="nav-btn nav-active px-5 py-2 rounded-xl text-xs font-bold">داشبورد</button>
+            <button onclick="tab('cafe')" class="nav-btn px-5 py-2 rounded-xl text-xs font-bold">باریستا سنتر</button>
+            <button onclick="tab('psych')" class="nav-btn px-5 py-2 rounded-xl text-xs font-bold">روانشناسی</button>
+            <button onclick="tab('games')" class="nav-btn px-5 py-2 rounded-xl text-xs font-bold">گیم‌سنتر</button>
+            <button onclick="tab('sys')" class="nav-btn px-5 py-2 rounded-xl text-xs font-bold">آنالیزور</button>
+            <button onclick="document.body.classList.toggle('light-mode')" class="w-10 h-10 glass flex items-center justify-center"><i class="fas fa-adjust"></i></button>
         </nav>
     </header>
 
     <main class="max-w-7xl mx-auto">
-        
         <section id="home" class="section active">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 cyber-card p-10">
-                    <h2 class="text-4xl font-black mb-4 text-cyan-400">سلام سینا عزیز!</h2>
-                    <p class="opacity-70 mb-6 leading-7">به سیستم نکسوس خوش آمدی. تمام ماژول‌ها با موفقیت لود شدند. آماده‌ای برای تجربه کافه و روانشناسی؟</p>
-                    <div class="flex gap-4">
-                        <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex items-center gap-4">
-                            <i class="fas fa-clock text-cyan-500"></i>
-                            <div id="clock-display" class="font-mono text-sm">۰۰:۰۰:۰۰</div>
-                        </div>
-                    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 glass p-10 relative overflow-hidden">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
+                    <h2 class="text-5xl font-black mb-4">خوش آمدی، <span class="text-cyan-400">سینا</span></h2>
+                    <p class="opacity-70 text-lg max-w-xl leading-relaxed">سیستم نکسوس پرایم نسخه ۲۰۲۶ آماده خدمت‌رسانی است. امروز زمان خوبی برای یادگیری فوت‌وفن قهوه یا تست شخصیت‌شناسی است.</p>
                 </div>
-                <div class="cyber-card p-6 flex flex-col items-center justify-center">
-                    <div id="weather-icon" class="text-5xl mb-4 text-yellow-400"><i class="fas fa-sun"></i></div>
-                    <div class="text-2xl font-black">۲۷°C</div>
-                    <p class="text-[10px] opacity-50 uppercase tracking-widest mt-2">Tehran, Iran</p>
+                <div class="glass p-6 flex flex-col items-center justify-center text-center">
+                    <canvas id="battery-chart" width="100" height="100"></canvas>
+                    <h4 class="mt-4 font-bold">وضعیت انرژی سیستم</h4>
+                    <p id="bat-status" class="text-cyan-400 font-mono">در حال دریافت...</p>
                 </div>
             </div>
         </section>
 
         <section id="cafe" class="section">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="cyber-card p-8">
-                    <h3 class="text-2xl font-black mb-6 border-r-4 border-orange-500 pr-4">منوی اختصاصی کافه</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <p class="text-xs mb-3 opacity-50">انتخاب نوشیدنی اصلی:</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="setDrink('قهوه', '#4b2c20')" class="p-3 bg-white/5 rounded-xl text-xs hover:bg-orange-500/20 transition">کاپوچینو / قهوه</button>
-                                <button onclick="setDrink('نسکافه', '#78350f')" class="p-3 bg-white/5 rounded-xl text-xs hover:bg-orange-500/20 transition">نسکافه داغ</button>
-                                <button onclick="setDrink('چای سبز', '#166534')" class="p-3 bg-white/5 rounded-xl text-xs hover:bg-green-500/20 transition">چای و دمنوش</button>
-                                <button onclick="setDrink('شربت', '#be123c')" class="p-3 bg-white/5 rounded-xl text-xs hover:bg-red-500/20 transition">شربت خنک</button>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="addIng('شیر')" class="flex-1 p-3 bg-white/5 rounded-xl text-[10px] border border-white/10 hover:border-cyan-500">+ شیر</button>
-                            <button onclick="addIng('شکر')" class="flex-1 p-3 bg-white/5 rounded-xl text-[10px] border border-white/10 hover:border-cyan-500">+ شکر</button>
-                        </div>
-                        <button onclick="brewNow()" class="w-full bg-orange-600 py-4 rounded-2xl font-black text-white hover:bg-orange-500 transition shadow-lg">سفارش را آماده کن</button>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass p-6">
+                    <h3 class="text-xl font-bold mb-4 text-orange-400"><i class="fas fa-coffee ml-2"></i>منوی باریستا</h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <button onclick="brew('اسپرسو', '#321414', 'قوی و تلخ')" class="glass p-4 text-right hover:bg-orange-500/10">اسپرسو سینگل</button>
+                        <button onclick="brew('لاته', '#c6a682', 'ترکیب شیر و قهوه')" class="glass p-4 text-right hover:bg-orange-500/10">کافه لاته</button>
+                        <button onclick="brew('آیس کافی', '#2b1d0e', 'سرد و انرژی‌بخش')" class="glass p-4 text-right hover:bg-orange-500/10">آیس کافی ملل</button>
+                    </div>
+                    <div class="mt-6 p-4 bg-orange-500/5 rounded-xl border border-orange-500/20">
+                        <h5 class="text-xs font-bold text-orange-400 mb-2">فوت‌وفن امروز:</h5>
+                        <p class="text-[11px] leading-6 opacity-80">برای داشتن بهترین فوم شیر، دمای شیر نباید از ۶۵ درجه سانتی‌گراد فراتر برود، در غیر این صورت قند شیر سوخته و طعم آن تلخ می‌شود.</p>
                     </div>
                 </div>
-                <div class="cyber-card p-10 flex flex-col items-center justify-center">
-                    <div class="flex gap-2 mb-2">
-                        <div class="steam-anim w-1 h-12 bg-white/20 rounded-full"></div>
-                        <div class="steam-anim w-1 h-16 bg-white/20 rounded-full" style="animation-delay:0.5s"></div>
+                <div class="lg:col-span-2 glass p-10 flex flex-col items-center relative">
+                    <div class="w-48 h-64 border-x-[12px] border-b-[12px] border-white/10 rounded-b-[4rem] relative overflow-hidden">
+                        <div id="liquid" class="absolute bottom-0 w-full transition-all duration-[3s]" style="height: 0%"></div>
                     </div>
-                    <div class="relative w-40 h-48 border-x-8 border-b-8 border-white/20 rounded-b-[3rem] overflow-hidden">
-                        <div id="cup-liquid" class="liquid-fill absolute bottom-0 w-full" style="height: 0%"></div>
-                    </div>
-                    <p id="cafe-status" class="mt-6 font-bold text-orange-400 italic">منتظر انتخاب شما...</p>
+                    <div id="brew-msg" class="mt-8 text-2xl font-bold text-orange-400 italic">سفارش خود را انتخاب کنید</div>
                 </div>
-            </div>
-        </section>
-
-        <section id="beauty" class="section">
-            <div class="max-w-2xl mx-auto cyber-card p-12 text-center">
-                <div class="w-40 h-40 mx-auto border-4 border-cyan-500/20 rounded-full mb-8 flex items-center justify-center relative overflow-hidden">
-                    <i class="fas fa-camera text-5xl opacity-20"></i>
-                    <div id="scan-bar" class="absolute top-0 w-full h-1 bg-cyan-400 shadow-[0_0_15px_cyan] hidden"></div>
-                </div>
-                <h3 class="text-2xl font-black mb-4">اسکنر بیومتریک چهره</h3>
-                <button onclick="startBeautyScan()" class="bg-cyan-600 px-12 py-3 rounded-full font-bold hover:scale-105 transition">شروع اسکن</button>
-                <div id="beauty-result" class="mt-8 text-xl font-bold min-h-[60px] text-cyan-400"></div>
             </div>
         </section>
 
         <section id="psych" class="section">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="cyber-card p-8">
-                    <h3 class="text-xl font-black text-purple-400 mb-6">تست شخصیت MBTI (سریع)</h3>
-                    <div id="mbti-area">
-                        <p id="mbti-text" class="mb-6 leading-7">آیا حاضرید با پاسخ به چند سوال تیپ شخصیتی خود را بشناسید؟</p>
-                        <div id="mbti-btns" class="grid gap-2">
-                            <button onclick="startMBTI()" class="p-4 bg-purple-600 rounded-xl font-bold">بله، شروع تست</button>
-                        </div>
-                    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="lg:col-span-1 space-y-4">
+                    <div onclick="showPs('balini')" class="glass p-4 cursor-pointer hover:bg-cyan-500/10 transition border-r-4 border-red-500">بالینی و درمان</div>
+                    <div onclick="showPs('kodak')" class="glass p-4 cursor-pointer hover:bg-cyan-500/10 transition border-r-4 border-yellow-500">روانشناسی کودک</div>
+                    <div onclick="showPs('mofaghiat')" class="glass p-4 cursor-pointer hover:bg-cyan-500/10 transition border-r-4 border-green-500">رشد و موفقیت</div>
+                    <button onclick="startBigFive()" class="w-full bg-cyan-600 p-4 rounded-xl font-bold mt-4">شروع تست شخصیت دقیق</button>
                 </div>
-                <div class="cyber-card p-8">
-                    <h3 class="text-xl font-black text-pink-400 mb-6">دانشنامه روانشناسی</h3>
-                    <div class="space-y-4">
-                        <div class="p-4 bg-white/5 rounded-xl border-r-4 border-pink-500">
-                            <h4 class="font-bold mb-1">تله‌های زندگی چیست؟</h4>
-                            <p class="text-xs opacity-60">الگوهای تکراری که از کودکی در ذهن ما شکل گرفته و در بزرگسالی مانع موفقیت می‌شوند.</p>
-                        </div>
-                        <div class="p-4 bg-white/5 rounded-xl border-r-4 border-cyan-500">
-                            <h4 class="font-bold mb-1">هوش هیجانی (EQ)</h4>
-                            <p class="text-xs opacity-60">توانایی شناخت و کنترل احساسات خود و درک احساسات دیگران در روابط.</p>
-                        </div>
+                <div class="lg:col-span-3 glass p-8">
+                    <div id="psych-content">
+                        <h3 class="text-2xl font-bold mb-4">به بخش روانشناسی خوش آمدید</h3>
+                        <p class="leading-8 opacity-80">لطفاً یک دسته‌بندی را از سمت راست انتخاب کنید تا مقالات تخصصی بارگذاری شوند. بخش تست شخصیت بر اساس متد Big Five طراحی شده است.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="games" class="section">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 cyber-card p-6 flex flex-col items-center">
-                    <div class="flex justify-between w-full mb-4 px-2">
-                        <span class="text-xs font-bold text-cyan-400 tracking-widest uppercase">Classic Snake</span>
-                        <span class="text-xs">SCORE: <span id="snake-score" class="font-mono">0</span></span>
-                    </div>
-                    <canvas id="snakeCanvas" width="360" height="360" class="bg-black/40 rounded-xl border border-white/5"></canvas>
-                    <button onclick="initSnakeGame()" class="mt-6 bg-cyan-600 px-10 py-2 rounded-full font-bold">شروع بازی مار</button>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div onclick="game_reaction()" class="glass p-8 text-center cursor-pointer btn-hover border-b-4 border-cyan-500">
+                    <i class="fas fa-bolt text-3xl mb-3"></i>
+                    <h5 class="text-xs font-bold">تست واکنش</h5>
                 </div>
-                <div class="cyber-card p-6">
-                    <h4 class="font-bold mb-6 italic opacity-50">بخش بازی‌های سریع</h4>
-                    <div class="grid gap-2">
-                        <button onclick="alert('به زودی!')" class="p-4 bg-white/5 rounded-xl text-xs hover:bg-white/10 text-right">دوز هوشمند</button>
-                        <button onclick="alert('به زودی!')" class="p-4 bg-white/5 rounded-xl text-xs hover:bg-white/10 text-right">تست سرعت کلیک</button>
-                    </div>
+                <div onclick="game_guess()" class="glass p-8 text-center cursor-pointer btn-hover border-b-4 border-purple-500">
+                    <i class="fas fa-question text-3xl mb-3"></i>
+                    <h5 class="text-xs font-bold">حدس عدد</h5>
                 </div>
+                <div onclick="alert('به زودی!')" class="glass p-8 text-center opacity-50">
+                    <i class="fas fa-cube text-3xl mb-3"></i>
+                    <h5 class="text-xs font-bold">2048</h5>
+                </div>
+                </div>
+            <div id="game-stage" class="glass mt-6 p-10 text-center min-h-[300px] flex flex-col items-center justify-center">
+                <p class="opacity-40">یک بازی را برای شروع انتخاب کنید</p>
             </div>
         </section>
 
         <section id="sys" class="section">
-            <div class="cyber-card p-10 flex flex-col items-center text-center">
-                <h3 class="text-3xl font-black mb-10 text-cyan-400">System Monitoring</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
-                    <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
-                        <p class="text-[10px] opacity-50 mb-2 uppercase">GPU Performance</p>
-                        <p id="fps-val" class="text-3xl font-black">--</p>
-                    </div>
-                    <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
-                        <p class="text-[10px] opacity-50 mb-2 uppercase">CPU Cores</p>
-                        <p class="text-3xl font-black" id="cpu-cores">--</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass p-6">
+                    <h4 class="text-cyan-400 font-bold mb-4 uppercase text-xs">Device Info</h4>
+                    <ul id="device-list" class="space-y-3 text-xs font-mono"></ul>
+                </div>
+                <div class="glass p-6">
+                    <h4 class="text-purple-400 font-bold mb-4 uppercase text-xs">Browser Engine</h4>
+                    <ul id="browser-list" class="space-y-3 text-xs font-mono"></ul>
+                </div>
+                <div class="glass p-6 flex flex-col items-center justify-center">
+                    <div class="text-5xl font-black text-cyan-500" id="fps">--</div>
+                    <div class="text-[10px] opacity-40 mt-2">REALTIME FPS</div>
                 </div>
             </div>
         </section>
-
     </main>
 
     <script>
-        // --- مدیریت تب‌ها ---
-        function changeTab(id) {
-            // مخفی کردن همه بخش‌ها
+        // --- Core ---
+        function tab(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            // غیرفعال کردن همه دکمه‌های نویگیشن
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
-            
-            // نمایش بخش انتخابی
-            const targetSection = document.getElementById(id);
-            if(targetSection) targetSection.classList.add('active');
-            
-            // فعال کردن دکمه مربوطه در نویگیشن
-            const activeBtn = document.querySelector(`[onclick="changeTab('${id}')"]`);
-            if(activeBtn) activeBtn.classList.add('nav-active');
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('nav-active');
         }
 
-        // --- دارک مود / لایت مود ---
-        function toggleDarkMode() {
-            document.body.classList.toggle('light-mode');
-        }
-
-        // --- ساعت و تاریخ ---
         setInterval(() => {
-            const now = new Date();
-            document.getElementById('clock-display').innerText = now.toLocaleTimeString('fa-IR');
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('fa-IR');
         }, 1000);
 
-        // --- سیستم کافه ---
-        let selectedDrink = { name: '', color: '' };
-        let extras = [];
-
-        function setDrink(name, color) {
-            selectedDrink = { name, color };
-            document.getElementById('cafe-status').innerText = name + " انتخاب شد.";
-        }
-        function addIng(name) {
-            extras.push(name);
-            document.getElementById('cafe-status').innerText = name + " اضافه شد.";
-        }
-        function brewNow() {
-            if(!selectedDrink.name) return alert('اول یک نوشیدنی انتخاب کن!');
-            const fill = document.getElementById('cup-liquid');
-            fill.style.height = "0%";
-            fill.style.background = selectedDrink.color;
-            document.getElementById('cafe-status').innerText = "در حال آماده‌سازی...";
-            
+        // --- Cafe ---
+        function brew(name, color, desc) {
+            const liq = document.getElementById('liquid');
+            const msg = document.getElementById('brew-msg');
+            liq.style.height = "0%";
+            msg.innerText = "در حال آسیاب و عصاره‌گیری...";
             setTimeout(() => {
-                fill.style.height = "85%";
-                document.querySelectorAll('.steam-anim').forEach(s => s.style.opacity = "1");
-                document.getElementById('cafe-status').innerText = selectedDrink.name + " شما با " + (extras.join(' و ') || 'خلوص کامل') + " آماده است!";
-                extras = [];
+                liq.style.background = color;
+                liq.style.height = "85%";
+                msg.innerText = name + " آماده است: " + desc;
             }, 1000);
         }
 
-        // --- زیبایی‌سنج (۱۰۰ جمله) ---
-        const gP = ["ماه در مقابل تو کم میاره!","جذابیتت سیستم رو هنگ کرد.","تو دقیقا همون تعریفی هستی که از کلمه زیبا داریم.","لبخندت می‌تونه دنیا رو جای بهتری کنه."];
-        for(let i=0; i<96; i++) gP.push("جمله مثبت شماره " + i + ": تو فوق‌العاده‌ای!");
-        const bP = ["شانس خیلی بدی داشتی! از بین ۱۰۰ تا جمله خوب، این افتاد: امروز زیاد جذاب نیستی!","زیبایی درونی مهمه، چون ظاهری... ولش کن!"];
+        // --- Psychology Data ---
+        const psychDB = {
+            balini: { t: "روانشناسی بالینی", c: "تمرکز این شاخه بر تشخیص و درمان اختلالات روانی مثل افسردگی و اضطراب است. متد CBT یکی از رایج‌ترین روش‌های درمان در این حوزه محسوب می‌شود." },
+            kodak: { t: "روانشناسی کودک", c: "بررسی مراحل رشد شناختی پیاژه و تحولات عاطفی کودک از بدو تولد تا نوجوانی. در این مرحله شکل‌گیری طرحواره‌ها بسیار حیاتی است." },
+            mofaghiat: { t: "روانشناسی موفقیت", c: "تئوری انتخاب ویلیام گلسر و مفهوم تاب‌آوری (Resilience) از ارکان اصلی این بخش هستند که به فرد کمک می‌کنند در شرایط سخت رشد کند." }
+        };
+        function showPs(key) {
+            const d = psychDB[key];
+            document.getElementById('psych-content').innerHTML = `<h3 class="text-2xl font-bold mb-4 text-cyan-400">${d.t}</h3><p class="leading-8">${d.c}</p>`;
+        }
 
-        function startBeautyScan() {
-            const bar = document.getElementById('scan-bar');
-            const res = document.getElementById('beauty-result');
-            bar.classList.remove('hidden');
-            bar.animate([{top:'0%'},{top:'100%'}], {duration: 1500, iterations: 2});
-            res.innerText = "در حال آنالیز پیکسل‌های چهره...";
-            
+        // --- Game: Reaction Test ---
+        function game_reaction() {
+            const stage = document.getElementById('game-stage');
+            stage.innerHTML = `<div id="box" onclick="hit()" class="w-32 h-32 bg-red-500 rounded-full flex items-center justify-center cursor-pointer">صبر کن...</div>`;
+            const box = document.getElementById('box');
+            const wait = Math.random() * 3000 + 1000;
+            let start;
             setTimeout(() => {
-                bar.classList.add('hidden');
-                if(Math.random() > 0.1) res.innerText = "✨ " + gP[Math.floor(Math.random()*gP.length)];
-                else res.innerText = "💀 " + bP[Math.floor(Math.random()*bP.length)];
-            }, 3000);
-        }
-
-        // --- تست شخصیت MBTI ---
-        let mbtiScore = "";
-        function startMBTI() {
-            document.getElementById('mbti-text').innerText = "۱. معمولا ترجیح می‌دهید تنها باشید یا در جمع‌های بزرگ؟";
-            document.getElementById('mbti-btns').innerHTML = `
-                <button onclick="nextMBTI('I')" class="p-3 bg-white/5 rounded-xl">تنهایی</button>
-                <button onclick="nextMBTI('E')" class="p-3 bg-white/5 rounded-xl">جمع‌های بزرگ</button>
-            `;
-        }
-        function nextMBTI(code) {
-            mbtiScore += code;
-            document.getElementById('mbti-text').innerText = "تحلیل سیستم: تیپ شما متمایل به " + mbtiScore + " است. شما فردی متفکر و خاص هستید.";
-            document.getElementById('mbti-btns').innerHTML = `<button onclick="startMBTI()" class="p-4 bg-purple-600 rounded-xl">تکرار تست</button>`;
-        }
-
-        // --- بازی مار (اصلاح شده) ---
-        const canvas = document.getElementById('snakeCanvas'), ctx = canvas.getContext('2d');
-        let snake, food, dx, dy, sLoop, score;
-
-        function initSnakeGame() {
-            snake = [{x: 10, y: 10}]; food = {x: 5, y: 5}; dx = 1; dy = 0; score = 0;
-            if(sLoop) clearInterval(sLoop);
-            sLoop = setInterval(drawSnake, 100);
-        }
-
-        function drawSnake() {
-            ctx.fillStyle = '#000'; ctx.fillRect(0,0,360,360);
-            let head = {x: snake[0].x + dx, y: snake[0].y + dy};
-            if(head.x === food.x && head.y === food.y) {
-                score += 10; document.getElementById('snake-score').innerText = score;
-                food = {x: Math.floor(Math.random()*17), y: Math.floor(Math.random()*17)};
-            } else snake.pop();
-            
-            if(head.x<0 || head.x>17 || head.y<0 || head.y>17 || snake.some(s=>s.x===head.x && s.y===head.y)) {
-                clearInterval(sLoop); alert('بازی تمام شد!'); return;
+                box.style.background = "#00f2fe";
+                box.innerText = "کلیک کن!";
+                start = Date.now();
+            }, wait);
+            window.hit = () => {
+                const diff = Date.now() - start;
+                stage.innerHTML = `<h2 class="text-4xl font-bold">${diff} میلی‌ثانیه</h2><button onclick="game_reaction()" class="mt-4 bg-white/10 px-6 py-2 rounded-lg text-xs">تکرار</button>`;
             }
-            snake.unshift(head);
-            ctx.fillStyle = '#00f2fe'; snake.forEach(s => ctx.fillRect(s.x*20, s.y*20, 18, 18));
-            ctx.fillStyle = '#ff0033'; ctx.fillRect(food.x*20, food.y*20, 18, 18);
         }
 
-        window.addEventListener('keydown', e => {
-            if(e.key === 'ArrowUp' && dy === 0) { dx = 0; dy = -1; }
-            if(e.key === 'ArrowDown' && dy === 0) { dx = 0; dy = 1; }
-            if(e.key === 'ArrowLeft' && dx === 0) { dx = -1; dy = 0; }
-            if(e.key === 'ArrowRight' && dx === 0) { dx = 1; dy = 0; }
-        });
-
-        // --- سیستم آنالیزور ---
-        let fc = 0, lt = performance.now();
-        function updateFPS() {
-            fc++; let n = performance.now();
-            if(n >= lt + 1000) { document.getElementById('fps-val').innerText = fc; fc = 0; lt = n; }
-            requestAnimationFrame(updateFPS);
+        function game_guess() {
+            const target = Math.floor(Math.random() * 10) + 1;
+            const stage = document.getElementById('game-stage');
+            stage.innerHTML = `<h3>یک عدد بین ۱ تا ۱۰ حدس بزن</h3><div class="flex gap-2 mt-4">${[1,2,3,4,5,6,7,8,9,10].map(n => `<button onclick="checkG(${n}, ${target})" class="glass w-10 h-10">${n}</button>`).join('')}</div>`;
+            window.checkG = (n, t) => {
+                if(n === t) stage.innerHTML = `<h2 class="text-green-500">آفرین! درست بود</h2><button onclick="game_guess()" class="mt-4 glass p-2">دوباره</button>`;
+                else alert('اشتباه بود! دوباره سعی کن');
+            }
         }
-        updateFPS();
-        document.getElementById('cpu-cores').innerText = navigator.hardwareConcurrency || 'N/A';
 
+        // --- System Monitor ---
+        async function loadSys() {
+            const dl = document.getElementById('device-list');
+            const bl = document.getElementById('browser-list');
+            
+            // Device Data
+            const data = [
+                {l: "OS", v: navigator.platform},
+                {l: "Cores", v: navigator.hardwareConcurrency},
+                {l: "Memory", v: (navigator.deviceMemory || "8") + " GB"},
+                {l: "Screen", v: window.screen.width + "x" + window.screen.height}
+            ];
+            dl.innerHTML = data.map(i => `<li class="flex justify-between border-b border-white/5 pb-2"><span>${i.l}:</span><span class="text-cyan-400">${i.v}</span></li>`).join('');
+            
+            // Browser Data
+            bl.innerHTML = `<li>Agent: ${navigator.vendor}</li><li>PDF: ${navigator.pdfViewerEnabled}</li><li>Cookies: ${navigator.cookieEnabled}</li>`;
+
+            // IP (Simulation as real IP needs backend/API key)
+            fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
+                dl.innerHTML += `<li class="flex justify-between text-yellow-500"><span>IP:</span><span>${d.ip}</span></li>`;
+            });
+        }
+
+        // FPS
+        let times = [];
+        function fpsLoop() {
+            window.requestAnimationFrame(() => {
+                const now = performance.now();
+                while (times.length > 0 && times[0] <= now - 1000) times.shift();
+                times.push(now);
+                document.getElementById('fps').innerText = times.length;
+                fpsLoop();
+            });
+        }
+
+        loadSys();
+        fpsLoop();
     </script>
 </body>
 </html>
